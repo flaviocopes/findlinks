@@ -9,16 +9,13 @@ import (
 )
 
 func main() {
-
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe("localhost:8000", nil))
-
+	log.Fatal(http.ListenAndServe("0.0.0.0:8000", nil))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.Query().Get("q")
 	fmt.Fprintf(w, "Page = %q\n", url)
-
 	if len(url) == 0 {
 		return
 	}
@@ -27,7 +24,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Error getting page %s %s\n", url, err)
 		return
 	}
-
 	links := pageLinks(nil, page)
 	for _, link := range links {
 		fmt.Fprintf(w, "Link = %q\n", link)
